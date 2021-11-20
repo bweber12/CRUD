@@ -12,19 +12,20 @@ document.getElementById("submit").addEventListener("click", () => {
   newDiv.id = tarea;
   newDiv.innerHTML =
     `
-    <div id="nombre">` +
+    <div  class="input-group ans" style="width: 80%;">
+    <span class="input-group-text">` +
     tarea +
-    ` </div>
-    <input id="tarea" value="` +
+    ` </span>
+    <input type="text" class="form-control" id="edit" placeholder="` +
     descripcion+
     `">
-    <input class="edit" type="button" value="edit" placeholder="` +
+    <button class="btn btn-warning btn-link-hover-color" type="button" placeholder="` +
     tarea +
-    `">
-    <input class="delete" type="button" value="delete" placeholder="` +
+    `">Editar</button>
+    <button class="btn btn-danger" type="button" placeholder="` +
     tarea +
-    `">
-    `;
+    `" ">Borrar</button>
+    </div>;`
 
   document.getElementById("submit").after(newDiv);
   updateDelete();
