@@ -1,42 +1,70 @@
-var sb = document.getElementById("submit");
+
+
 var arr = [];
 
 
-sb.addEventListener('click', () => {
-    var node = document.getElementById("ans");
+document.getElementById("submit").addEventListener("click", () => {
+  var tarea = document.getElementById("taskName").value;
+  var descripcion = document.getElementById("taskDesc").value;
+  arr.push({ tarea, descripcion });
+  localStorage.setItem("storage", JSON.stringify(arr));
+  let newDiv = document.createElement("div");
+  newDiv.id = tarea;
+  newDiv.innerHTML =
+    `
+    <div id="nombre">` +
+    tarea +
+    ` </div>
+    <input id="tarea" value="` +
+    descripcion+
+    `">
+    <input class="edit" type="button" value="edit" placeholder="` +
+    tarea +
+    `">
+    <input class="delete" type="button" value="delete" placeholder="` +
+    tarea +
+    `">
+    `;
 
-    var myValue = document.getElementById("taskName").value;
-    var myValue = document.getElementById("taskDesc").value;
-    arr.push(myValue);
-    localStorage.setItem('storage', JSON.stringify(arr)); //agregar o modificar
-
-    var div = document.createElement('div');
-    div.classList.add('d-block');
-    div.innerText = myValue;
-    //newDiv.value = myValue;
-    node.appendChild(div);
-    localStorage.removeItem(myValue); //remover
-
+  document.getElementById("submit").after(newDiv);
+  updateDelete();
+  console.log(newDiv)
 });
 
-
-function loadStorage() {
-    var parse = JSON.parse(localStorage.getItem('storage'));
-    if (parse === null) 
-        return;
-    parse.forEach(e => {
-        arr.push(e);
+document.querySelectorAll(".edit").forEach((e) => {
+    e.addEventListener("click", () => {
+      //leer el valor del nombre y la tarea actual
+      //buscar en el array el objeto con el nombre y remplazar la tarea
+      localStorage.setItem("storage", JSON.stringify(arr));
+      document.getElementById(e.placeholder).children();
+      //modifico el objeto del dom
     });
-    console.log(arr);
-}
-
-loadStorage();
-
-document.getElementById('clean').addEventListener('click', () => {
-    localStorage.clear();
-});
-
-
+  });
+  
+  function updateDelete() {
+    document.querySelectorAll(".delete").forEach((e) => {
+      e.addEventListener("click", () => {
+        //leer el valor del nombre y eliminar el objeto id del nombre
+        //buscar en el array el objeto con el nombre y elimino el objeto del arr
+        console.log("delete");
+  
+        localStorage.setItem("storage", JSON.stringify(arr));
+        document.getElementById(e.placeholder).remove();
+        //elimino el objeto del dom
+      });
+    });
+  }
+  
+  //crear todos los divs del local storage si el usuario recarga la pagina.
+  function firstLoad() {
+    var storage = JSON.parse(localStorage.getItem("storage"));
+    storage.forEach((tarea, descripcion) => {});
+    //cargar storage en el dom
+    updateDelete();
+  }
+  
+  firstLoad();
+  
 
 
 
